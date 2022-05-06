@@ -33,7 +33,7 @@ public class BasicDao<T> {
     }
 
     //返回多个对象
-    public List<T> queryMuti(String sql, Class<T> clazz, int params) throws SQLException {
+    public List<T> queryMuti(String sql, Class<T> clazz, Object... params) {
         Connection connection = null;
         try {
             connection = JDBCUtilsByDruid.getConnection();
