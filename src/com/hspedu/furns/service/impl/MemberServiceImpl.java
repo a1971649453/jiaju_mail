@@ -33,4 +33,19 @@ public class MemberServiceImpl implements MemberService {
         return memberDAO.queryMemberByUsername(username) != null;
 
     }
+
+    /**
+     * 判断用户是否存在 依据用户名和密码
+     * @param username
+     * @param password
+     * @return 一个对象 如果为空则不存在
+     */
+    @Override
+    public boolean login(String username, String password) {
+        return memberDAO.queryMemberByUsernameAndPassword(username, password) != null;
+    }
+    @Override
+    public Member login(Member member){
+        return memberDAO.queryMemberByUsernameAndPassword(member.getUsername(),member.getPassword());
+    }
 }

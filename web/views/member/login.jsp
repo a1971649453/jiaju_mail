@@ -1,67 +1,81 @@
-<!DOCTYPE html>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <title>韩顺平教育-家居网购</title>
-    <base href="http://localhost:8080/jiaju_mail/">
+    <%--<base href="http://localhost:8080/jiaju_mal/">--%>
+    <base href="<%=request.getContextPath() + "/"%>">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <link rel="stylesheet" href="assets/css/vendor/vendor.min.css"/>
     <link rel="stylesheet" href="assets/css/plugins/plugins.min.css"/>
-    <link rel="stylesheet" href="assets/css/style.min.css"/>
+    <link rel="stylesheet" href="assets/css/style.min.css"/>i
     <script type="text/javascript" src="script/jquery-3.6.0.min.js"></script>
     <script type="text/javascript">
-        // ctrl + home ctrl + end
-        $(function (){//页面加载完毕后
 
-            //绑定点击事件
-            $("#sub-btn").click(function(){
-                //获取到输入的用户名
-                var usernameVal = $("#username").val();
-                // alert(usernameVal);
-                //编写正则表达式
-                var usernamePattern = /^\w{6,10}$/;
-                if (!usernamePattern.test(usernameVal)){
-                    //展示错误格式
-                    $("[class = 'errorMsg']").text("用户名不对 需要6-10个字符")
-                    return false;//不提交
-                }
-                //过关斩将法
-                //完成对密码校验
-                var passwordVal = $("#password").val();
-                var passwordPattern = /^\w{6,10}$/;
-                if (!passwordPattern.test(passwordVal)){
-                    //展示错误格式
-                    $("span.errorMsg").text("密码格式不对")
-                    return false;//不提交
-                }
-                //两次密码相同
-                //先得到确认的密码
-                var repwdVal = $("#repwd").val();
-                //判断是否相等
-                if(passwordVal != repwdVal){
-                    $("span.errorMsg").text("输入两次密码不同")
-                    return false;
-                }
+    $(function () {
+        $("#sub-btn").click(function () {
 
-                //验证邮箱
-                var emailVal = $("#email").val();
-                //js中转义为一个\
-                var emailValPattern = /^[\w-]+@([a-zA-Z]+\.)+[a-zA-Z]+$/
-                if (!emailValPattern.test(emailVal)){
-                    //展示错误格式
-                    $("span.errorMsg").text("邮箱格式不对")
-                    return false;//不提交
-                }
-                $("span.errorMsg").text("用过验证");
-                return true;
-                //全部过关
+            //获取到到输入的用户名 => 自己看前端给的页面
+            var usernameVal = $("#username").val();
+            // alert("usernameVal=" + usernameVal)
 
+            //编写正则表达式来进行验证.
+            var usernamePattern = /^\w{6,10}$/;
+            //验证
+            if (!usernamePattern.test(usernameVal)) {
+                //展示错误提示, jquery属性过滤器
+                $("span[class='errorMsg']").text("用户名格式不对, 需要6-10字符");
+                return false;//不提交 , 返回false
+            }
 
+            //一关一个关的通过验证
+            //完成对密码的校验
+            var passwordVal = $("#password").val();
+            var passwordPattern = /^\w{6,10}$/;
+            if (!passwordPattern.test(passwordVal)) {
+                //展示密码错误提示-基本过滤器, 希望小伙伴感到知识不是每个都是新
+                //信心-》潜意识我学过.
+                $("span.errorMsg").text("密码格式不对, 需要6-10字符");
+                return false;
+            }
 
-            })
+            //两次密码相同
+            //得到第二次输入密码
+            var repwdVal = $("#repwd").val();
+            if (repwdVal != passwordVal) {
+                $("span.errorMsg").text("输入的两次密码不同");
+                return false;
+            }
+            //验证邮箱
+            //得到邮箱 => 去看html
+            var emailVal = $("#email").val();
+            //老师说明 在java中，正则表达式的转义是\\, 在js 正则表达式 转义是\
+            //如果你看不懂，回看java正则表达式
+            var emailPattern = /^[\w-]+@([a-zA-Z]+\.)+[a-zA-Z]+$/; //偷懒->java
+            if (!emailPattern.test(emailVal)) {
+                $("span.errorMsg").text("电子邮件格式不对");
+                return false;
+            }
+
+            // 验证码：浏览器这里验证不能为空
+            var codeText = $("#code").val();
+            //去掉验证码前后空格
+            codeText = $.trim(codeText);
+            if (codeText == null || codeText == "") {
+                //提示
+                $("span.errorMsg").text("验证码不能为空！");
+                return false;
+            }
+
+            //到这里就全部过关. => 我们暂时不提交，显示验证通过信息
+            $("span.errorMsg").text("验证通过...");
+            //目前我们写了后台，当验证通过时，就提交给后台
+            return true;
 
         })
+    })
+
     </script>
 </head>
 
@@ -122,8 +136,12 @@
                         <div id="lg1" class="tab-pane active">
                             <div class="login-form-container">
                                 <div class="login-register-form">
-                                    <form action="#" method="post">
-                                        <input type="text" name="user-name" placeholder="Username"/>
+                                    <span style="font-size:18pt;font-weight:bold;float:right;color: gainsboro">
+                                        ${requestScope.msg}
+                                    </span>
+                                    <form action="MemberServlet" method="post" >
+                                        <input type="hidden" name="action" value="login">
+                                        <input type="text" name="user-name" value="${requestScope.username}" placeholder="Username"/>
                                         <input type="password" name="user-password" placeholder="Password"/>
                                         <div class="button-box">
                                             <div class="login-toggle-btn">
@@ -142,11 +160,12 @@
                                 <div class="login-register-form">
                                     <span class="errorMsg"
                                           style="float: right; font-weight: bold; font-size: 20pt; margin-left: 10px;"></span>
-                                    <form action="registerServlet" method="post">
+                                    <form action="MemberServlet" method="post">
+                                        <input type="hidden" name="action" value="register">
                                         <input type="text" id="username" name="username" placeholder="Username"/>
                                         <input type="password" id="password" name="password" placeholder="输入密码"/>
                                         <input type="password" id="repwd" name="repwd" placeholder="确认密码"/>
-                                        <input name="user-email" id="email" name="email" placeholder="电子邮件" type="email"/>
+                                        <input name="user-email" id="email" placeholder="电子邮件" type="email"/>
                                         <input type="text" id="code" name="user-name" style="width: 50%" id="code"
                                                placeholder="验证码"/>　　<img alt="" src="assets/images/code/code.bmp">
                                         <div class="button-box">
@@ -201,7 +220,7 @@
                                         <li class="li"><a class="single-link" href="my-account.html">我的账号</a>
                                         </li>
                                         <li class="li"><a class="single-link" href="cart.html">我的购物车</a></li>
-                                        <li class="li"><a class="single-link" href="login.html">登录</a></li>
+                                        <li class="li"><a class="single-link" href="login.jsp">登录</a></li>
                                         <li class="li"><a class="single-link" href="wishlist.html">感兴趣的</a></li>
                                         <li class="li"><a class="single-link" href="checkout.html">结账</a></li>
                                     </ul>

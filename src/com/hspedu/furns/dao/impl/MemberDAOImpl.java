@@ -33,4 +33,11 @@ public class MemberDAOImpl extends BasicDao<Member> implements MemberDAO{
         String sql = " INSERT INTO `member`(`username`,`password`,`email`) VALUES(?,MD5(?),?)";
         return update(sql,member.getUsername(),member.getPassword(),member.getEmail());
     }
+
+    @Override
+    public Member queryMemberByUsernameAndPassword(String username, String password) {
+        String sql = "SELECT `id`,`username`,`password`,`email` FROM `member` " +
+                " WHERE `username` = ? and `password` = MD5(?)";
+        return querySingle(sql,Member.class,username,password);
+    }
 }

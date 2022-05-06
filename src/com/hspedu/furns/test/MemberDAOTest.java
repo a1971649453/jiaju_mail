@@ -29,4 +29,15 @@ public class MemberDAOTest {
             System.out.println("添加失败");
         }
     }
+
+    @Test
+    public void queryMemberByUsernameAndPassword() {
+
+        if (memberDAO.queryMemberByUsernameAndPassword("admin","admin")==null){
+            System.out.println("用户不存在");
+        }else{
+            System.out.println("用户存在");
+        }
+    }
+
 }
