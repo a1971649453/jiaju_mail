@@ -22,7 +22,6 @@ public class AdminServlet extends BasicServlet {
         Admin admin = adminService.login(new Admin(null, adminName, password));
         if (admin!=null){
             //如果通过 是管理员
-            System.out.println("是管理员");
             request.getRequestDispatcher("/views/member/manage_menu.jsp").forward(request,response);
         }else{
             request.setAttribute("msg", "用户账号或密码错误");

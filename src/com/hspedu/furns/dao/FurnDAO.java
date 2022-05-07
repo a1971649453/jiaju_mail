@@ -16,5 +16,10 @@ public interface FurnDAO {
     //3.根据制造商返回家具集合
     public List<Furn> queryFurnByMaker(String maker);
     //4.管理家居 得到所有家居
-    public List<Furn> queryAll();
+    //Todo 考虑分页
+    public List<Furn> queryFurns();
+
+    //5.添加家居
+
+    
 }

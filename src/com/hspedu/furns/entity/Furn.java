@@ -7,13 +7,13 @@ import java.math.BigDecimal;
  * @version 1.0
  */
 public class Furn {
-    private Integer id;
+    private Integer id;//为什么必须Integer 因为防止空指针 Integer可以放Null
     private String name;
     private String maker;
     private BigDecimal price;
     private Integer sales;
     private Integer stock;
-    private String img_path;
+    private String img_path;//如果不一样 需要将mysql语句 加上AS  将两者保持一致
 
     public Furn() {
     }
@@ -25,6 +25,7 @@ public class Furn {
         this.price = price;
         this.sales = sales;
         this.stock = stock;
+        //表字段 和Bean属性不同如何解决?
         this.img_path = img_path;
     }
 
@@ -82,5 +83,18 @@ public class Furn {
 
     public void setImg_path(String img_path) {
         this.img_path = img_path;
+    }
+
+    @Override
+    public String toString() {
+        return "Furn{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", maker='" + maker + '\'' +
+                ", price=" + price +
+                ", sales=" + sales +
+                ", stock=" + stock +
+                ", img_path='" + img_path + '\'' +
+                '}';
     }
 }

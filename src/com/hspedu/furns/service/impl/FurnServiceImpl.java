@@ -15,6 +15,6 @@ public class FurnServiceImpl implements FurnService {
     private FurnDAO furnDAO = new FurnDAOImpl();
     @Override
     public List<Furn> queryFurns() {
-        return furnDAO.queryAll();
+        return furnDAO.queryFurns();
     }
 }

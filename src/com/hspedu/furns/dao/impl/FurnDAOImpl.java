@@ -14,25 +14,25 @@ public class FurnDAOImpl extends BasicDao<Furn> implements FurnDAO {
 
     @Override
     public Furn queryFurnById(int id) {
-        String sql = "SELECT * FROM furn WHERE id =?";
+        String sql = "SELECT `id`,`name`,`maker`,`price`,`sales`,`stock`,`img_path` FROM furn WHERE id =?";
         return querySingle(sql,Furn.class,id);
     }
 
     @Override
     public Furn queryFurnByName(String name) {
-        String sql = "SELECT * FROM furn WHERE `name` =?";
+        String sql = "SELECT `id`,`name`,`maker`,`price`,`sales`,`stock`,`img_path` FROM furn WHERE `name` =?";
         return querySingle(sql,Furn.class,name);
     }
 
     @Override
     public List<Furn> queryFurnByMaker(String maker) {
-        String sql = "SELECT * FROM furn WHERE `maker` =?";
+        String sql = "SELECT `id`,`name`,`maker`,`price`,`sales`,`stock`,`img_path` FROM furn WHERE `maker` =?";
         return queryMuti(sql,Furn.class,maker);
     }
 
     @Override
-    public List<Furn> queryAll() {
-        String sql = "SELECT * FROM furn";
+    public List<Furn> queryFurns() {
+        String sql = "SELECT `id`,`name`,`maker`,`price`,`sales`,`stock`,`img_path` FROM furn";
         return queryMuti(sql,Furn.class);
     }
 }

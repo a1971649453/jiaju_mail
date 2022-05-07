@@ -10,5 +10,10 @@ import java.util.List;
  */
 public interface FurnService {
     //查询家居
+
+    /**
+     * 返回家居信息
+     * @return
+     */
     public List<Furn> queryFurns();
 }
