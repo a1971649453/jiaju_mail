@@ -21,5 +21,11 @@ public interface FurnDAO {
 
     //5.添加家居
 
+    /**
+     * 传入的furn对象保存到DB
+     * @param furn
+     * @return
+     */
+    public int addFurn(Furn furn);
     
 }

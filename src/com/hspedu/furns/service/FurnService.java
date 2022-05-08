@@ -16,4 +16,10 @@ public interface FurnService {
      * @return
      */
     public List<Furn> queryFurns();
+
+    /**
+     * 添加furn对象
+     * @param furn
+     */
+    public int addFurn(Furn furn);
 }

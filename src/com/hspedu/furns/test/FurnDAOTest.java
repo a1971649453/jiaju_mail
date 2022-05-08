@@ -5,6 +5,7 @@ import com.hspedu.furns.dao.impl.FurnDAOImpl;
 import com.hspedu.furns.entity.Furn;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -13,6 +14,7 @@ import java.util.List;
  */
 public class FurnDAOTest {
     private FurnDAO furnDAO =new FurnDAOImpl();
+    private Furn furn;
     @Test
     public  void queryFurns(){
         List<Furn> furns = furnDAO.queryFurns();
@@ -20,4 +22,12 @@ public class FurnDAOTest {
             System.out.println(furn);
         }
     }
+    @Test
+    public void addFurnsTest() {
+        BigDecimal bigDecimal = new BigDecimal(180.00);
+        String defaultImgPath = "assets/images/product-image/6.jpg";
+        Furn furn1 = new Furn(null, "test", "test", bigDecimal, 2, 23, defaultImgPath);
+        System.out.println(furnDAO.addFurn(furn1));
+        }
+
 }

@@ -20,6 +20,8 @@ public abstract class BasicServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        //解决中文乱码 必须到这里处理 因为request域是携带到这里的
+        req.setCharacterEncoding("utf-8");
 //        System.out.println("basic的dopost方法");
         String action = req.getParameter("action");
 //        System.out.println(action);

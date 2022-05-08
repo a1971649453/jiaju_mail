@@ -13,7 +13,8 @@ public class Furn {
     private BigDecimal price;
     private Integer sales;
     private Integer stock;
-    private String img_path;//如果不一样 需要将mysql语句 加上AS  将两者保持一致
+    //给一个默认的 防止前端提交空值
+    private String img_path = "assets/images/product-image/6.jpg";//如果不一样 需要将mysql语句 加上AS  将两者保持一致
 
     public Furn() {
     }
@@ -26,7 +27,10 @@ public class Furn {
         this.sales = sales;
         this.stock = stock;
         //表字段 和Bean属性不同如何解决?
-        this.img_path = img_path;
+        if (!(null == img_path || "".equals(img_path))) {
+            this.img_path = img_path;
+        }
+
     }
 
     public Integer getId() {
