@@ -27,5 +27,14 @@ public interface FurnDAO {
      * @return
      */
     public int addFurn(Furn furn);
+
+    //6.删除家居
+
+    /**
+     * 根据传入的id 删除家居
+     * @param id
+     * @return
+     */
+    public int deleteFurn(int id);
     
 }

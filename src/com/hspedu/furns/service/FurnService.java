@@ -22,4 +22,10 @@ public interface FurnService {
      * @param furn
      */
     public int addFurn(Furn furn);
+
+    /**
+     * 删除家居
+     * @return
+     */
+    public int deleteFurnById(int id);
 }

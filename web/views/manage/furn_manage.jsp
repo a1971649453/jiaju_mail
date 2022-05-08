@@ -11,6 +11,18 @@
     <link rel="stylesheet" href="assets/css/vendor/vendor.min.css"/>
     <link rel="stylesheet" href="assets/css/plugins/plugins.min.css"/>
     <link rel="stylesheet" href="assets/css/style.min.css">
+    <script type="text/javascript" src="script/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript">
+    $(function (){
+        $("a.deleteCss").click(function(){
+            //获取到要删除的家居的名字
+            var furnName = $(this).parent().parent().find("td:eq(1)").text();
+            //confirm方法会弹出一个确认窗口 确定是返回ture 返回是false
+             return confirm("你确定删除[" + furnName + "]吗?");
+
+        })
+    })
+    </script>
 </head>
 
 <body>
@@ -112,7 +124,7 @@
                                 </td>
                                 <td class="product-remove">
                                     <a href="#"><i class="icon-pencil"></i></a>
-                                    <a href="#"><i class="icon-close"></i></a>
+                                    <a class="deleteCss" href="manage/FurnServlet?action=del&id=${furn.id}" ><i class="icon-close"></i></a>
                                 </td>
                             </tr>
                             </c:forEach>

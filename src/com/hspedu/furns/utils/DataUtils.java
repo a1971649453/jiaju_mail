@@ -19,4 +19,13 @@ public class DataUtils {
         }
         return bean;
     }
+
+    public static  int parseInt(String val,int defaultVal){
+        try {
+            return Integer.parseInt(val);
+        } catch (NumberFormatException e) {
+            System.out.println(val + "格式不正确");
+        }
+        return defaultVal;
+    }
 }

@@ -106,4 +106,18 @@ public class FurnServlet extends BasicServlet {
 //        response.sendRedirect(request.getContextPath() + "/manage/FurnServlet?action=list");
 //    }
     }
+
+    public void del(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+        //1.得到furn对象的id
+        int id = DataUtils.parseInt(request.getParameter("id"), 0);
+//        System.out.println(id);
+        //2.删除
+        if (furnService.deleteFurnById(id) > 0){
+            response.sendRedirect(request.getContextPath() + "/manage/FurnServlet?action=list");
+        }else{
+            //3.重定向到list
+            request.setAttribute("msg","删除失败");
+        }
+
+    }
 }

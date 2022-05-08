@@ -13,21 +13,28 @@ import java.util.List;
  * @version 1.0
  */
 public class FurnDAOTest {
-    private FurnDAO furnDAO =new FurnDAOImpl();
+    private FurnDAO furnDAO = new FurnDAOImpl();
     private Furn furn;
+
     @Test
-    public  void queryFurns(){
+    public void queryFurns() {
         List<Furn> furns = furnDAO.queryFurns();
         for (Furn furn : furns) {
             System.out.println(furn);
         }
     }
+
     @Test
     public void addFurnsTest() {
         BigDecimal bigDecimal = new BigDecimal(180.00);
         String defaultImgPath = "assets/images/product-image/6.jpg";
         Furn furn1 = new Furn(null, "test", "test", bigDecimal, 2, 23, defaultImgPath);
         System.out.println(furnDAO.addFurn(furn1));
-        }
+    }
+
+    @Test
+    public void deleteFurnTest() {
+        furnDAO.deleteFurn(8);
+    }
 
 }
