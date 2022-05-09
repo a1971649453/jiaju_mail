@@ -4,6 +4,7 @@ package com.hspedu.furns.web; /**
  */
 
 import com.hspedu.furns.entity.Furn;
+import com.hspedu.furns.entity.Page;
 import com.hspedu.furns.service.AdminService;
 import com.hspedu.furns.service.FurnService;
 import com.hspedu.furns.service.impl.AdminServiceImpl;
@@ -119,5 +120,35 @@ public class FurnServlet extends BasicServlet {
             request.setAttribute("msg","删除失败");
         }
 
+    }
+
+    public void showFurn(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+        int id = DataUtils.parseInt(request.getParameter("id"), 0);
+        Furn furn = furnService.queryFurnById(id);
+        request.setAttribute("furn",furn);
+        request.getRequestDispatcher("/views/manage/furn_update.jsp").forward(request,response);
+    }
+
+    public void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+        Furn furn = DataUtils.copyParamToBean(request.getParameterMap(), new Furn());
+        System.out.println(furn);
+//        int id = DataUtils.parseInt(request.getParameter("id"), 0);
+//        furn.setId(id);
+        if (furnService.updateFurn(furn) > 0){//如果修改成功就重定向到家居显示
+            response.sendRedirect(request.getContextPath() + "/manage/FurnServlet?action=list");
+        }
+    }
+
+    public void page(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+        //流程分析 1.首先获得前端传入的pageSize 和 pageNo 然后调用service 返回 Page 对象 放入到Request域中
+        int pageNo = DataUtils.parseInt(request.getParameter("pageNo"),1);
+        int pageSize = DataUtils.parseInt(request.getParameter("pageSize"), Page.PAGE_SIZE);
+
+        //调用Service方法 获取Page对象
+        Page<Furn> page = furnService.page(pageNo, pageSize);
+        System.out.println(page);
+        //转发给 list方法
+        request.setAttribute("page",page);
+        request.getRequestDispatcher("/views/manage/furn_manage.jsp").forward(request,response);
     }
 }

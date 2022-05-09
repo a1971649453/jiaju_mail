@@ -16,7 +16,6 @@ public interface FurnDAO {
     //3.根据制造商返回家具集合
     public List<Furn> queryFurnByMaker(String maker);
     //4.管理家居 得到所有家居
-    //Todo 考虑分页
     public List<Furn> queryFurns();
 
     //5.添加家居
@@ -36,5 +35,18 @@ public interface FurnDAO {
      * @return
      */
     public int deleteFurn(int id);
-    
+
+    /**
+     * 修改家居信息
+     * @param furn
+     * @return
+     */
+    public int updateFurn(Furn furn);
+
+    //获取总的行数
+    public int getTotalRow();
+
+    // 获取当前页要显示的数据
+    public List<Furn> getPageItems(int begin, int pageSize);
+
 }

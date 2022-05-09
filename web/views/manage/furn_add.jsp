@@ -137,7 +137,6 @@
         ${requestScope.msg}
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-                </span>
                 <span class="errorMsg"
                       style="float: right; font-weight: bold; font-size: 20pt; margin-left: 10px;"></span>
                 <form action="manage/FurnServlet" method="post">

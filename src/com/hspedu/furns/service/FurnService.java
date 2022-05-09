@@ -1,6 +1,7 @@
 package com.hspedu.furns.service;
 
 import com.hspedu.furns.entity.Furn;
+import com.hspedu.furns.entity.Page;
 
 import java.util.List;
 
@@ -28,4 +29,25 @@ public interface FurnService {
      * @return
      */
     public int deleteFurnById(int id);
+
+    /**
+     * 修改家居
+     * @param id
+     * @return
+     */
+    public int updateFurn(Furn furn);
+
+
+    /**
+     * 根据id返回单个家居信息
+     * @param id
+     * @return
+     */
+    public Furn queryFurnById(int id);
+
+
+    public Page<Furn> page(int pageNo, int pageSize);
+
+
+
 }

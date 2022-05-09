@@ -1,15 +1,81 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html lang="en">
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge"/>
     <title>韩顺平教育-家居网购</title>
-    <base href="<%=request.getContextPath() + "/"%>">
     <!-- 移动端适配 -->
+    <base href="<%=request.getContextPath() + "/"%>">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <link rel="stylesheet" href="assets/css/vendor/vendor.min.css"/>
     <link rel="stylesheet" href="assets/css/plugins/plugins.min.css"/>
     <link rel="stylesheet" href="assets/css/style.min.css">
+    <script type="text/javascript" src="script/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript">
+
+        $(function () {
+            $("#sub-btn").click(function () {
+
+                //获取到到输入的用户名 => 自己看前端给的页面
+                var nameVal = $("#name").val();
+                // alert("usernameVal=" + usernameVal)
+
+                //编写正则表达式来进行验证.
+                var namePattern = /[\u4e00-\u9fa5]*/;
+                //验证
+                if (!namePattern.test(nameVal)) {
+                    //展示错误提示, jquery属性过滤器
+                    $("span[class='errorMsg']").text("家居名字格式不正确");
+                    return false;//不提交 , 返回false
+                }
+
+                //一关一个关的通过验证
+                //制造商
+                var makerVal = $("#maker").val();
+                var makerValPattern = /^[\u4e00-\u9fa5]{1,10}$/;
+                if (!makerValPattern.test(makerVal)) {
+                    //展示密码错误提示-基本过滤器, 希望小伙伴感到知识不是每个都是新
+                    //信心-》潜意识我学过.
+                    $("span.errorMsg").text("商家格式不对");
+                    return false;
+                }
+
+                //价格
+                var priceVal = $("#price").val();
+                var priceValPattern = /[1-9]\d*.\d*|0.\d*[1-9]\d*/;
+                if (!priceValPattern.test(priceVal)) {
+                    //展示密码错误提示-基本过滤器, 希望小伙伴感到知识不是每个都是新
+                    //信心-》潜意识我学过.
+                    $("span.errorMsg").text("价格格式不对");
+                    return false;
+                }
+
+                //销售数量
+                var salesVal = $("#sales").val();
+                var salesPattern = /[1-9]\d*/
+                if (!salesPattern.test(salesVal)){
+                    $("span.errorMsg").text("销售数量不对");
+                    return false;
+                }
+
+                //库存
+                var stockVal = $("#stock").val();
+                //老师说明 在java中，正则表达式的转义是\\, 在js 正则表达式 转义是\
+                //如果你看不懂，回看java正则表达式
+                var stockPattern = /[1-9]\d*/ //偷懒->java
+                if (!stockPattern.test(stockVal)){
+                    $("span.errorMsg").text("库存数量不对");
+                    return false;
+                }
+
+                //到这里就全部过关. => 我们暂时不提交，显示验证通过信息
+                $("span.errorMsg").text("验证通过...");
+                //目前我们写了后台，当验证通过时，就提交给后台
+                return true;
+            })
+        })
+
+    </script>
 </head>
 
 <body>
@@ -31,13 +97,13 @@
                 <!-- Header Action Start -->
                 <div class="col align-self-center">
                     <div class="header-actions">
+
                         <!-- Single Wedge Start -->
                         <div class="header-bottom-set dropdown">
-                            <%--<a href="manage/FurnServlet?action=list">家居管理</a>--%>
-                            <a href="manage/FurnServlet?action=page&pageNo=1">家居管理</a>
+                            <a href="#">家居管理</a>
                         </div>
                         <div class="header-bottom-set dropdown">
-                            <a href="views/manager/furn_manage.jsp">订单管理</a>
+                            <a href="#">订单管理</a>
                         </div>
                     </div>
                 </div>
@@ -67,10 +133,52 @@
 <!-- Cart Area Start -->
 <div class="cart-main-area pt-100px pb-100px">
     <div class="container">
-        <h3 class="cart-page-title">家居后台管理-菜单</h3>
+        <h3 class="cart-page-title">家居后台管理-修改家居</h3>
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-
+                <form action="manage/FurnServlet" method="post">
+                    <input type="hidden" name="action" value="update" />
+                    <%--//重点 自己做的时候没想到 如何传入id  从一个隐藏域里面传入id  当时的思想没有找到好的传id的方法--%>
+                    <input type="hidden" name="id" value="${requestScope.furn.id}">
+                    <div class="table-content table-responsive cart-table-content">
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>图片</th>
+                                <th>家居名</th>
+                                <th>商家</th>
+                                <th>价格</th>
+                                <th>销量</th>
+                                <th>库存</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <c:forEach items="${requestScope.furns}" var="furn">
+                            <tr>
+                                <td class="product-thumbnail">
+                                    <a href="manage/FurnServlet?action=update"><img class="img-responsive ml-3" src="assets/images/product-image/default.jpg"
+                                                     alt=""/></a>
+                                </td>
+                                <td class="product-name"><input id="name" name="name" style="width: 60%" type="text" value="${requestScope.furn.name}"/></td>
+                                <td class="product-name"><input id="maker" name="maker" style="width: 90%" type="text" value="${requestScope.furn.maker}"/></td>
+                                <td class="product-price-cart"><input id="price" name="price" style="width: 90%" type="text" value="${requestScope.furn.price}"/></td>
+                                <td class="product-quantity">
+                                    <input id="sales" name="sales" style="width: 90%" type="text" value="${requestScope.furn.sales}"/></td>
+                                <td class="product-quantity">
+                                    <input id="stock" name="stock" style="width: 90%" type="text" value="${requestScope.furn.stock}"/>
+                                </td>
+                                <td>
+<!--                                    <a href="#"><i class="icon-pencil"></i></a>-->
+<!--                                    <a href="#"><i class="icon-close"></i></a>-->
+                                    <input type="submit" id="sub-btn" style="width: 90%;background-color: silver;border: silver;border-radius: 20%;" value="修改家居"/>
+                                </td>
+                            </tr>
+                            </c:forEach>
+                            </tbody>
+                        </table>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

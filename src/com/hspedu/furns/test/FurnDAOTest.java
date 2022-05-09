@@ -37,4 +37,17 @@ public class FurnDAOTest {
         furnDAO.deleteFurn(8);
     }
 
+    @Test
+    public void getTotalRow() {
+        System.out.println(furnDAO.getTotalRow());
+    }
+
+    @Test
+    public void getPageItems() {
+        List<Furn> pageItems = furnDAO.getPageItems(0, 3);
+        for (Furn pageItem : pageItems) {
+            System.out.println(pageItem);
+        }
+    }
+
 }

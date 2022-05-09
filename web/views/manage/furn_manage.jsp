@@ -107,7 +107,8 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <c:forEach items="${requestScope.furns}" var="furn">
+                            <%--调用getItems方法--%>
+                            <c:forEach items="${requestScope.page.items}" var="furn">
                             <tr>
                                 <td class="product-thumbnail">
                                     <a href="#"><img class="img-responsive ml-3" src="${furn.img_path}"
@@ -123,7 +124,7 @@
                                     ${furn.stock}
                                 </td>
                                 <td class="product-remove">
-                                    <a href="#"><i class="icon-pencil"></i></a>
+                                    <a href="manage/FurnServlet?action=showFurn&id=${furn.id}"><i class="icon-pencil"></i></a>
                                     <a class="deleteCss" href="manage/FurnServlet?action=del&id=${furn.id}" ><i class="icon-close"></i></a>
                                 </td>
                             </tr>
