@@ -141,6 +141,7 @@
                       style="float: right; font-weight: bold; font-size: 20pt; margin-left: 10px;"></span>
                 <form action="manage/FurnServlet" method="post">
                     <input type="hidden" name="action" value="add">
+                    <input type="hidden" name="pageNo" value="${param.pageNo}" />
                     <div class="table-content table-responsive cart-table-content">
                         <table>
                             <thead>

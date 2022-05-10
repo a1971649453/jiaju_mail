@@ -140,6 +140,7 @@
                     <input type="hidden" name="action" value="update" />
                     <%--//重点 自己做的时候没想到 如何传入id  从一个隐藏域里面传入id  当时的思想没有找到好的传id的方法--%>
                     <input type="hidden" name="id" value="${requestScope.furn.id}">
+                    <input type="hidden" name="pageNo" value="${param.pageNo}" />
                     <div class="table-content table-responsive cart-table-content">
                         <table>
                             <thead>

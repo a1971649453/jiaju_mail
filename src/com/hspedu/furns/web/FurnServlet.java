@@ -90,7 +90,8 @@ public class FurnServlet extends BasicServlet {
         furnService.addFurn(furn);
 
         //解决重复添加问题 使用重定向 重定向本质是两次请求 最后一次请求是显示家居
-        response.sendRedirect(request.getContextPath() + "/manage/FurnServlet?action=list");
+//        response.sendRedirect(request.getContextPath() + "/manage/FurnServlet?action=list");
+        response.sendRedirect(request.getContextPath() + "/manage/FurnServlet?action=page&pageNo="+request.getParameter("pageNo"));
 ////        也可以直接在这里try catch 如果出错就返回
 //        //后面是SpringMvc 数据校验 注解解决
 //        try {
@@ -114,7 +115,8 @@ public class FurnServlet extends BasicServlet {
 //        System.out.println(id);
         //2.删除
         if (furnService.deleteFurnById(id) > 0){
-            response.sendRedirect(request.getContextPath() + "/manage/FurnServlet?action=list");
+//            response.sendRedirect(request.getContextPath() + "/manage/FurnServlet?action=list");
+      response.sendRedirect(request.getContextPath() + "/manage/FurnServlet?action=page&pageNo="+request.getParameter("pageNo"));
         }else{
             //3.重定向到list
             request.setAttribute("msg","删除失败");
@@ -126,16 +128,17 @@ public class FurnServlet extends BasicServlet {
         int id = DataUtils.parseInt(request.getParameter("id"), 0);
         Furn furn = furnService.queryFurnById(id);
         request.setAttribute("furn",furn);
+        request.setAttribute("pageNo",request.getParameter("pageNo"));
+        //如果是请求转发 就可以在下一个页面 param.get
         request.getRequestDispatcher("/views/manage/furn_update.jsp").forward(request,response);
     }
 
     public void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         Furn furn = DataUtils.copyParamToBean(request.getParameterMap(), new Furn());
-        System.out.println(furn);
 //        int id = DataUtils.parseInt(request.getParameter("id"), 0);
 //        furn.setId(id);
         if (furnService.updateFurn(furn) > 0){//如果修改成功就重定向到家居显示
-            response.sendRedirect(request.getContextPath() + "/manage/FurnServlet?action=list");
+            response.sendRedirect(request.getContextPath() + "/manage/FurnServlet?action=page&pageNo="+request.getParameter("pageNo")+"&pageSize=3");
         }
     }
 
@@ -146,7 +149,6 @@ public class FurnServlet extends BasicServlet {
 
         //调用Service方法 获取Page对象
         Page<Furn> page = furnService.page(pageNo, pageSize);
-        System.out.println(page);
         //转发给 list方法
         request.setAttribute("page",page);
         request.getRequestDispatcher("/views/manage/furn_manage.jsp").forward(request,response);

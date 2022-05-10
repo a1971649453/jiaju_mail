@@ -1,3 +1,4 @@
+<%@ page import="com.hspedu.furns.utils.DataUtils" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="en">
@@ -59,7 +60,7 @@
                             <a href="#">后台管理</a>
                         </div>
                         <div class="header-bottom-set dropdown">
-                            <a href="views/manage/furn_add.jsp">添加家居</a>
+                            <a href="views/manage/furn_add.jsp?pageNo=${requestScope.page.pageNo}">添加家居</a>
                         </div>
                     </div>
                 </div>
@@ -124,8 +125,9 @@
                                     ${furn.stock}
                                 </td>
                                 <td class="product-remove">
-                                    <a href="manage/FurnServlet?action=showFurn&id=${furn.id}"><i class="icon-pencil"></i></a>
-                                    <a class="deleteCss" href="manage/FurnServlet?action=del&id=${furn.id}" ><i class="icon-close"></i></a>
+                                    <%--自己写的时候没有找到放pageNo的位置--%>
+                                    <a href="manage/FurnServlet?action=showFurn&id=${furn.id}&pageNo=${requestScope.page.pageNo}"><i class="icon-pencil"></i></a>
+                                    <a class="deleteCss" href="manage/FurnServlet?action=del&id=${furn.id}&pageNo=${requestScope.page.pageNo}" ><i class="icon-close"></i></a>
                                 </td>
                             </tr>
                             </c:forEach>
@@ -134,6 +136,33 @@
                     </div>
                 </form>
             </div>
+        </div>
+        <%--分页导航条start--%>
+        <div class="pro-pagination-style text-center mb-md-30px mb-lm-30px mt-6" data-aos="fade-up">
+            <ul>
+                <%--当前页面如果大于一 就显示上一页--%>
+                <li><a href="manage/FurnServlet?action=page&pageNo=1">首页</a></li>
+                <c:if test="${requestScope.page.pageNo > 1}">
+                <li><a href="manage/FurnServlet?action=page&pageNo=${requestScope.page.pageNo -1}">上一页</a></li>
+                </c:if>
+                <c:set var="begin" value="1"></c:set>
+                <c:set var="end" value="${requestScope.page.pageTotalCount}"></c:set>
+                <c:forEach begin="${begin}" end = "${end}" var="i">
+                    <c:if test="${i == requestScope.page.pageNo}">
+                        <li><a class="active" href="manage/FurnServlet?action=page&pageNo=${i}">${i}</a></li>
+                    </c:if>
+                    <c:if test="${i != requestScope.page.pageNo}">
+                        <li><a href="manage/FurnServlet?action=page&pageNo=${i}">${i}</a></li>
+                    </c:if>
+                </c:forEach>
+                <c:if test="${requestScope.page.pageNo < requestScope.page.pageTotalCount}">
+                <li><a href="manage/FurnServlet?action=page&pageNo=${requestScope.page.pageNo + 1}>">下一页</a></li>
+                </c:if>
+                    <li><a href="manage/FurnServlet?action=page&pageNo=${requestScope.page.pageTotalCount}">末页</a></li>
+                <li><a>共${requestScope.page.pageTotalCount}页</a></li>
+                <li><a>共${requestScope.page.totalRow}记录</a></li>
+            </ul>
+            <%--分页导航条end--%>
         </div>
     </div>
 </div>
