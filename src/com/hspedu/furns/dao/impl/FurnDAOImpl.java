@@ -3,6 +3,7 @@ package com.hspedu.furns.dao.impl;
 import com.hspedu.furns.dao.BasicDao;
 import com.hspedu.furns.dao.FurnDAO;
 import com.hspedu.furns.entity.Furn;
+import com.hspedu.furns.entity.Page;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -72,6 +73,20 @@ public class FurnDAOImpl extends BasicDao<Furn> implements FurnDAO {
         String sql = "SELECT `id`,`name`,`maker`,`price`,`sales`,`stock`,`img_path` FROM furn LIMIT ? , ?";
         return queryMuti(sql,Furn.class,begin,pageSize);
     }
+
+    @Override
+    public int getPageTotalRowByName(String name) {
+        String sql = "SELECT Count(*) FROM `furn`" +
+                " where `name` LIKE ?";
+        return ((Number)queryScalar(sql,"%" + name + "%")).intValue();
+    }
+
+    @Override
+    public List<Furn> getPageItemsByName(int begin,int pageSize,String name) {
+        String sql = "SELECT `id`,`name`,`maker`,`price`,`sales`,`stock`,`img_path` FROM furn where `name` LIKE ? LIMIT ?,?";
+        return queryMuti(sql,Furn.class,"%" + name + "%",begin,pageSize);
+    }
+
 
 
 }

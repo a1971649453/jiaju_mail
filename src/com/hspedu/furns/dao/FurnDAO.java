@@ -1,6 +1,7 @@
 package com.hspedu.furns.dao;
 
 import com.hspedu.furns.entity.Furn;
+import com.hspedu.furns.entity.Page;
 
 import java.util.List;
 
@@ -48,5 +49,17 @@ public interface FurnDAO {
 
     // 获取当前页要显示的数据
     public List<Furn> getPageItems(int begin, int pageSize);
+
+    /**
+     * 根据名字搜索出总的记录数
+     * @param name
+     */
+    public int getPageTotalRowByName(String name);
+
+    /**
+     * 根据搜索名字得到
+     * @param name
+     */
+    public List<Furn> getPageItemsByName(int begin, int pageSize,String name);
 
 }

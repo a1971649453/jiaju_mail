@@ -46,7 +46,21 @@ public interface FurnService {
     public Furn queryFurnById(int id);
 
 
+    /**
+     * 封装返回page信息
+     * @param pageNo
+     * @param pageSize
+     * @return
+     */
     public Page<Furn> page(int pageNo, int pageSize);
+
+    /**
+     * 根据搜索名字返回Page对象
+     * @param name
+     * @return
+     */
+    public Page<Furn> pageByName(int pageNo,int pageSize,String name);
+
 
 
 

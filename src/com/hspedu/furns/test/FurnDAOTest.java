@@ -50,4 +50,15 @@ public class FurnDAOTest {
         }
     }
 
+    @Test
+    public void testQueryByName() {
+        System.out.println(furnDAO.getPageTotalRowByName("小"));
+    }
+
+
+    @Test
+    public void testGetPageItemsByName(){
+        System.out.println(furnDAO.getPageItemsByName(1,2,"小"));
+    }
+
 }

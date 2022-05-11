@@ -42,4 +42,9 @@ public class FurnServiceTest {
         Page<Furn> page = furnService.page(2, 2);
         System.out.println(page);
     }
+
+    @Test
+    public void pageByName(){
+        System.out.println(furnService.pageByName(1,3,"小"));
+    }
 }

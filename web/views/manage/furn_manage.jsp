@@ -227,7 +227,9 @@
                 <div class="row flex-sm-row-reverse">
                     <div class="col-md-6 text-right">
                         <div class="payment-link">
-                            <img src="#" alt="">
+                            <%--src="#"的意思是会请求当前页 所以会去请求base标签下的url --%>
+                            <%--也就是 http://localhost:8080/jiaju_mail/#--%>
+                            <%--<img src="#" alt="">--%>
                         </div>
                     </div>
                     <div class="col-md-6 text-left">

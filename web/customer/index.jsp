@@ -37,8 +37,9 @@
                             <a href="javascript:void(0)" class="header-action-btn search-btn"><i
                                     class="icon-magnifier"></i></a>
                             <div class="dropdown_search">
-                                <form class="action-form" action="#">
-                                    <input class="form-control" placeholder="Enter your search key" type="text">
+                                <form class="action-form" action="CustomerFurnServlet?">
+                                    <input type="hidden" name="action" value="pageByName">
+                                    <input class="form-control" name="name" placeholder="输入家居名搜索" type="text">
                                     <button class="submit" type="submit"><i class="icon-magnifier"></i></button>
                                 </form>
                             </div>
@@ -101,8 +102,6 @@
             <div class="col">
                 <div class="tab-content">
                     <!-- 1st tab start -->
-
-
                     <div class="tab-pane fade show active" id="tab-product-new-arrivals">
                         <div class="row">
                             <c:forEach items="${requestScope.page.items}" var="furn">
@@ -166,22 +165,23 @@
         <%--当前页面如果大于一 就显示上一页--%>
         <li><a href="CustomerFurnServlet?action=page&pageNo=1">首页</a></li>
         <c:if test="${requestScope.page.pageNo > 1}">
-            <li><a href="CustomerFurnServlet?action=page&pageNo=${requestScope.page.pageNo -1}">上一页</a></li>
+            <li><a href="${requestScope.page.url}&pageNo=${requestScope.page.pageNo -1}">上一页</a></li>
         </c:if>
         <c:set var="begin" value="1"></c:set>
         <c:set var="end" value="${requestScope.page.pageTotalCount}"></c:set>
         <c:forEach begin="${begin}" end = "${end}" var="i">
             <c:if test="${i == requestScope.page.pageNo}">
-                <li><a class="active" href="CustomerFurnServlet?action=page&pageNo=${i}">${i}</a></li>
+                <%--<li><a class="active" href="CustomerFurnServlet?action=page&pageNo=${i}">${i}</a></li>--%>
+                <li><a class="active" href="${requestScope.page.url}&pageNo=${i}">${i}</a></li>
             </c:if>
             <c:if test="${i != requestScope.page.pageNo}">
-                <li><a href="CustomerFurnServlet?action=page&pageNo=${i}">${i}</a></li>
+                <li><a href="${requestScope.page.url}&pageNo=${i}">${i}</a></li>
             </c:if>
         </c:forEach>
         <c:if test="${requestScope.page.pageNo < requestScope.page.pageTotalCount}">
-            <li><a href="CustomerFurnServlet?action=page&pageNo=${requestScope.page.pageNo + 1}">下一页</a></li>
+            <li><a href="${requestScope.page.url}&pageNo=${requestScope.page.pageNo + 1}">下一页</a></li>
         </c:if>
-        <li><a href="CustomerFurnServlet?action=page&pageNo=${requestScope.page.pageTotalCount}">末页</a></li>
+        <li><a href="${requestScope.page.url}&pageNo=${requestScope.page.pageTotalCount}">末页</a></li>
         <li><a>共${requestScope.page.pageTotalCount}页</a></li>
         <li><a>共${requestScope.page.totalRow}记录</a></li>
     </ul>

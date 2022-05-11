@@ -147,6 +147,7 @@ public class FurnServlet extends BasicServlet {
         int pageNo = DataUtils.parseInt(request.getParameter("pageNo"),1);
         int pageSize = DataUtils.parseInt(request.getParameter("pageSize"), Page.PAGE_SIZE);
 
+
         //调用Service方法 获取Page对象
         Page<Furn> page = furnService.page(pageNo, pageSize);
         //转发给 list方法
