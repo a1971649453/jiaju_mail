@@ -25,7 +25,7 @@
                 <!-- Header Logo Start -->
                 <div class="col-auto align-self-center">
                     <div class="header-logo">
-                        <a href="index.html"><img src="assets/images/logo/logo.png" alt="Site Logo"/></a>
+                        <a href="index.jsp"><img src="assets/images/logo/logo.png" alt="Site Logo"/></a>
                     </div>
                 </div>
                 <!-- Header Logo End -->
@@ -45,11 +45,21 @@
                             </div>
                         </div>
                         <!-- Single Wedge Start -->
+                        <c:if test="${empty sessionScope.member}">
                         <div class="header-bottom-set dropdown">
                             <a href="views/member/login.jsp">登录|注册</a>
                         </div>
+                        </c:if>
+                        <c:if test="${not empty sessionScope.member}">
                         <div class="header-bottom-set dropdown">
-                            <a href="#">后台管理</a>
+                            <a>欢迎: ${sessionScope.member.username}</a>
+                        </div>
+                        </c:if>
+                        <div class="header-bottom-set dropdown">
+                            <a href="#">订单管理</a>
+                        </div>
+                        <div class="header-bottom-set dropdown">
+                            <a href="MemberServlet?action=logout">安全退出</a>
                         </div>
                         <!-- Single Wedge End -->
                         <a href="#offcanvas-cart"

@@ -132,6 +132,7 @@
                             <h4>会员注册</h4>
                         </a>
                     </div>
+
                     <div class="tab-content">
                         <div id="lg1" class="tab-pane active">
                             <div class="login-form-container">

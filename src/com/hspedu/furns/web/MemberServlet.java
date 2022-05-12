@@ -29,9 +29,12 @@ public class MemberServlet extends BasicServlet {
 //            request.getRequestDispatcher("/views/member/login.jsp").forward(request,response);
 //        }
         Member member = memberService.login(new Member(null, username, password, null));
-        if (member != null) {
-            System.out.println(member + " 登录成功");
-            request.getRequestDispatcher("/views/member/login_ok.html").forward(request, response);
+        if (member != null) {//该用户没有在DB
+            HttpSession session = request.getSession();
+            session.setAttribute("member",member);
+//            System.out.println(member + " 登录成功");
+            request.getRequestDispatcher("/views/member/login_ok.jsp").forward(request, response);
+
         } else {
             System.out.println(member + " 登录失败");
             request.setAttribute("msg", "用户账号或密码错误");
@@ -61,6 +64,11 @@ public class MemberServlet extends BasicServlet {
 //            返回注册页面
             System.out.println("用户名" + username + "不可用");
         }
+    }
 
+    public  void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+        HttpSession session = request.getSession();
+        session.invalidate();
+        response.sendRedirect(request.getContextPath() + "/index.jsp");
     }
 }

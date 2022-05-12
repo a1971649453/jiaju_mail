@@ -39,7 +39,7 @@
 //        Member member = memberService.login(new Member(null, username, password, null));
 //        if (member!=null){
 //            System.out.println(member + " 登录成功");
-//            request.getRequestDispatcher("/views/member/login_ok.html").forward(request,response);
+//            request.getRequestDispatcher("/views/member/login_ok.jsp").forward(request,response);
 //        }else{
 //            System.out.println(member + " 登录失败");
 //            request.setAttribute("msg","用户账号或密码错误");
