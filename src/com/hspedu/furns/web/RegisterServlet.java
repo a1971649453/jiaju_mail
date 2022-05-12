@@ -33,10 +33,10 @@
 ////            System.out.println("用户名" + username + "可用");
 //            Member member = new Member(null, username, password, email);
 //            if (memberService.registerMember(member)){
-//                request.getRequestDispatcher("/views/member/register_ok.html").forward(request,response);
+//                request.getRequestDispatcher("/views/member/register_ok.jsp").forward(request,response);
 ////                System.out.println("注册成功");
 //            }else {
-//                request.getRequestDispatcher("/views/member/register_fail.html").forward(request,response);
+//                request.getRequestDispatcher("/views/member/register_fail.jsp").forward(request,response);
 ////                System.out.println("注册失败");
 //            }
 //        }else {

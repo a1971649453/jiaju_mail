@@ -12,6 +12,8 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 
+import static com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY;
+
 @WebServlet(name = "MemberServlet", value = "/MemberServlet")
 public class MemberServlet extends BasicServlet {
     private MemberService memberService = new MemberServiceImpl();
@@ -48,21 +50,37 @@ public class MemberServlet extends BasicServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         String email = request.getParameter("user-email");
-
-        if (!memberService.isExistsMember(username)) {
-            //注册
+        //获取验证码
+        String code = request.getParameter("code");
+        //从session获取验证码
+        String token = (String) request.getSession().getAttribute(KAPTCHA_SESSION_KEY);
+        //立即删除session中的验证码 防止重复提交
+        request.getSession().removeAttribute(KAPTCHA_SESSION_KEY);
+        //判断 如果一致
+        if (token!=null && token.equalsIgnoreCase(code)) {
+            //判断用户名是否可用
+            if (!memberService.isExistsMember(username)) {
+                //注册
 //            System.out.println("用户名" + username + "可用");
-            Member member = new Member(null, username, password, email);
-            if (memberService.registerMember(member)) {
-                request.getRequestDispatcher("/views/member/register_ok.html").forward(request, response);
+                Member member = new Member(null, username, password, email);
+                if (memberService.registerMember(member)) {
+                    request.getRequestDispatcher("/views/member/register_ok.jsp").forward(request, response);
 //                System.out.println("注册成功");
-            } else {
-                request.getRequestDispatcher("/views/member/register_fail.html").forward(request, response);
+                } else {
+                    request.getRequestDispatcher("/views/member/register_fail.jsp").forward(request, response);
 //                System.out.println("注册失败");
-            }
-        } else {
+                }
+            } else {
 //            返回注册页面
-            System.out.println("用户名" + username + "不可用");
+                System.out.println("用户名" + username + "不可用");
+            }
+        }else{//验证码不正确
+            request.setAttribute("msg","验证码不正确");
+            //带回显示到注册选项页
+            request.setAttribute("active","register");
+            request.setAttribute("username",username);
+            request.setAttribute("email",email);
+            request.getRequestDispatcher("/views/member/login.jsp").forward(request, response);
         }
     }
 
