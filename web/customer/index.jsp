@@ -11,6 +11,19 @@
     <link rel="stylesheet" href="assets/css/vendor/vendor.min.css"/>
     <link rel="stylesheet" href="assets/css/plugins/plugins.min.css"/>
     <link rel="stylesheet" href="assets/css/style.min.css">
+    <script type="text/javascript" src="script/jquery-3.6.0.min.js"></script>
+    <script>
+        $(function () {
+            //给add to cart 绑定事件
+            $("button.add-to-cart").click(function () {
+                // alert("ok");
+                //获取点击的id
+                var furnId = $(this).attr("furnId")
+                //发出请求 添加家居
+                location.href = "CartServlet?action=addItem&id="+furnId;
+            })
+        })
+    </script>
 
 </head>
 
@@ -65,7 +78,7 @@
                         <a href="#offcanvas-cart"
                            class="header-action-btn header-action-btn-cart offcanvas-toggle pr-0">
                             <i class="icon-handbag"> 购物车</i>
-                            <span class="header-action-num">88</span>
+                            <span class="header-action-num">${sessionScope.cart.totalCount}</span>
                         </a>
                         <a href="#offcanvas-mobile-menu"
                            class="header-action-btn header-action-btn-menu offcanvas-toggle d-lg-none">
@@ -133,7 +146,7 @@
                                                title="Quick view" data-bs-toggle="modal" data-bs-target="#exampleModal"><i
                                                     class="icon-size-fullscreen"></i></a>
                                         </div>
-                                        <button title="Add To Cart" class=" add-to-cart">Add
+                                        <button title="Add To Cart" class="add-to-cart" furnId="${furn.id}" >Add
                                             To Cart
                                         </button>
                                     </div>
