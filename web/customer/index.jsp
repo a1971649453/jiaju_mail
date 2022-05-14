@@ -22,6 +22,9 @@
                 //发出请求 添加家居
                 location.href = "CartServlet?action=addItem&id="+furnId;
             })
+            $("i.icon-handbag").click(function () {
+                location.href = "views/cart/cart.jsp";
+            })
         })
     </script>
 
@@ -75,11 +78,16 @@
                             <a href="MemberServlet?action=logout">安全退出</a>
                         </div>
                         <!-- Single Wedge End -->
-                        <a href="#offcanvas-cart"
+
+
+
+                        <%--//toggle影响 main.js处理 所以无法正常跳转--%>
+                        <a href="views/cart/cart.jsp"
                            class="header-action-btn header-action-btn-cart offcanvas-toggle pr-0">
-                            <i class="icon-handbag"> 购物车</i>
+                            <i class="icon-handbag">购物车</i>
                             <span class="header-action-num">${sessionScope.cart.totalCount}</span>
                         </a>
+                        
                         <a href="#offcanvas-mobile-menu"
                            class="header-action-btn header-action-btn-menu offcanvas-toggle d-lg-none">
                             <i class="icon-menu"></i>

@@ -154,4 +154,6 @@ public class FurnServlet extends BasicServlet {
         request.setAttribute("page",page);
         request.getRequestDispatcher("/views/manage/furn_manage.jsp").forward(request,response);
     }
+
+
 }

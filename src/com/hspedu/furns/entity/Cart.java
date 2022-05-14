@@ -24,6 +24,11 @@ public class Cart {
         return totalCount;
     }
 
+    public HashMap<Integer, CartItem> getItems() {
+        return items;
+    }
+
+
     @Override
     public String toString() {
         return "Cart{" +
@@ -45,4 +50,51 @@ public class Cart {
         }
 
     }
+
+    //删除家居到Cart方法
+    public void deleteItem(CartItem cartItem){
+        CartItem item = items.get(cartItem.getId());
+        if (item != null){
+            items.remove(cartItem.getId());
+        }
+    }
+
+    //清空家居
+    public void clear(){
+        items.clear();
+    }
+
+    /**
+     * 根据传入的id和count 修改指定的CartItem
+     * @param id
+     * @param count
+     */
+    public void updateCount(int id,int count){
+        CartItem item = items.get(id);
+        if (item != null){
+            //先更新数量再更新总价
+            item.setCount(count);
+            item.setTotalPrice(item.getPrice().multiply(new BigDecimal(item.getCount())));
+        }
+    }
+
+
+    /**
+     * 返回购物车所有的价格
+     * @return
+     */
+    public BigDecimal getCartTotalPrice() {
+        BigDecimal cartTotalPrice = new BigDecimal(0);
+        //遍历items
+        Set<Integer> keys = items.keySet();
+        for (Integer id : keys) {
+            CartItem item = items.get(id);
+            //一定要把add后的值 重新赋值给cartTotalPrice
+            cartTotalPrice = cartTotalPrice.add(item.getTotalPrice());
+        }
+
+        return  cartTotalPrice;
+    }
+
+
 }
