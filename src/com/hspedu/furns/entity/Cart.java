@@ -28,6 +28,11 @@ public class Cart {
         return items;
     }
 
+    //判断购物车是否为空
+    public boolean isEmpty() {
+        return  items.size() == 0;
+    }
+
 
     @Override
     public String toString() {
@@ -52,10 +57,9 @@ public class Cart {
     }
 
     //删除家居到Cart方法
-    public void deleteItem(CartItem cartItem){
-        CartItem item = items.get(cartItem.getId());
-        if (item != null){
-            items.remove(cartItem.getId());
+    public void delItem(int id){
+        if (items != null){
+            items.remove(id);
         }
     }
 

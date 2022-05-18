@@ -29,7 +29,7 @@ public class CustomerFurnServlet extends BasicServlet {
         Page<Furn> page = furnService.page(pageNo, pageSize);
         //转发给 list方法
         request.setAttribute("page",page);
-        request.getRequestDispatcher("/customer/index.jsp").forward(request,response);
+        request.getRequestDispatcher("views/customer/index.jsp").forward(request,response);
     }
 
     public void pageByName(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -50,7 +50,7 @@ public class CustomerFurnServlet extends BasicServlet {
         page.setUrl(url.toString());
         request.setAttribute("page",page);
         //如何收到对象后 如何展示分页导航
-        request.getRequestDispatcher("/customer/index.jsp").forward(request,response);
+        request.getRequestDispatcher("views/customer/index.jsp").forward(request,response);
     }
 
 }

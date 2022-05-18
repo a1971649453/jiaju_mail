@@ -28,10 +28,10 @@ public class CartServlet extends BasicServlet {
         //获取id对应的Furn对象
         Furn furn = furnService.queryFurnById(id);
         //判断是否为空
-        // TODO
-//        if (furn==null) {
-//            return;
-//        }
+        if (furn==null || furn.getStock() == 0) {
+            resp.sendRedirect(req.getHeader("Referer"));
+            return;
+        }
         //先走完正常逻辑
         //根据Furn 构建cartItem
         CartItem item = new CartItem(furn.getId(), furn.getName(), 1, furn.getPrice(), furn.getPrice());
@@ -43,7 +43,6 @@ public class CartServlet extends BasicServlet {
             req.getSession().setAttribute("cart",cart);
         }
         cart.addItem(item);
-        System.out.println("cart: "+ cart);
 
         //添加完毕后需要返回到添加家居的页面
         resp.sendRedirect(req.getHeader("Referer"));
@@ -53,12 +52,11 @@ public class CartServlet extends BasicServlet {
         //1.先得到cart对象
         Cart cart = (Cart) req.getSession().getAttribute("cart");
         //2.通过前端传入id
-        int cartItemId = DataUtils.parseInt(req.getParameter("cartItemId"), 0);
-        //3.得到cartItem对象
-        HashMap<Integer, CartItem> items = cart.getItems();
+        int cartItemId = DataUtils.parseInt(req.getParameter("id"), 0);
         //4.删除
-        items.remove(cartItemId);
-
+        if (cart != null) {
+            cart.delItem(cartItemId);
+        }
         //5.转发回购物车页面
         resp.sendRedirect(req.getHeader("Referer"));
     }
@@ -66,8 +64,8 @@ public class CartServlet extends BasicServlet {
     public void clear(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Cart cart = (Cart) req.getSession().getAttribute("cart");
         cart.clear();
+        resp.sendRedirect(req.getHeader("Referer"));
     }
-
 
     public void updateCount(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
         Cart cart = (Cart) req.getSession().getAttribute("cart");

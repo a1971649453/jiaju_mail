@@ -14,6 +14,19 @@
     <script type="text/javascript" src="script/jquery-3.6.0.min.js"></script>
     <script>
         $(function () {
+            //给删除购物车绑定一个点击事件
+            $("a.delItem").click(function(){
+                //获取到要删除的家居的名字
+                var furnName = $(this).parent().parent().find("td:eq(1)").text();
+                //confirm方法会弹出一个确认窗口 确定是返回ture 返回是false
+                return confirm("你确定删除[" + furnName + "]吗?");
+            })
+
+            //给清空购物车绑定一个点击事件
+            $("a.clearCart").click(function(){
+                //confirm方法会弹出一个确认窗口 确定是返回ture 返回是false
+                return confirm("你确定清空购物车吗?");
+            })
 
             /*----------------------------Cart Plus Minus Button----------------------------- */
             var CartPlusMinus = $(".cart-plus-minus");
@@ -38,6 +51,8 @@
                 //发出购物车修改请求
                 location.href = "CartServlet?action=updateCount&count=" + newVal + "&id=" + furnId;
             });
+
+
         })
     </script>
 </head>
@@ -62,10 +77,10 @@
                 <div class="col align-self-center">
                     <div class="header-actions">
                         <div class="header-bottom-set dropdown">
-                            <a>欢迎: hello</a>
+                            <a>欢迎: ${sessionScope.member.username}</a>
                         </div>
                         <div class="header-bottom-set dropdown">
-                            <a href="#">订单管理</a>
+                            <a href="views/order/order.jsp">订单管理</a>
                         </div>
                         <div class="header-bottom-set dropdown">
                             <a href="#">安全退出</a>
@@ -159,7 +174,7 @@
                                         </td>
                                         <td class="product-subtotal">${entry.value.totalPrice}</td>
                                         <td class="product-remove">
-                                            <a href="#"><i class="icon-close"></i></a>
+                                            <a class="delItem" href="CartServlet?action=deleteItem&id=${entry.value.id}"><i class="icon-close"></i></a>
                                         </td>
                                     </tr>
                                 </c:forEach>
@@ -173,11 +188,11 @@
                             <div class="cart-shiping-update-wrapper">
                                 <h4>共${sessionScope.cart.totalCount}件商品 总价${sessionScope.cart.cartTotalPrice}元</h4>
                                 <div class="cart-shiping-update">
-                                    <a href="#">购 物 车 结 账</a>
+                                    <a href="OrderServlet?action=saveOrder">购 物 车 - 生 成 订 单</a>
                                 </div>
                                 <div class="cart-clear">
                                     <button>继 续 购 物</button>
-                                    <a href="#">清 空 购 物 车</a>
+                                    <a class="clearCart" href="CartServlet?action=clear">清 空 购 物 车</a>
                                 </div>
                             </div>
                         </div>

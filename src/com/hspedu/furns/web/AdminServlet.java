@@ -22,11 +22,12 @@ public class AdminServlet extends BasicServlet {
         Admin admin = adminService.login(new Admin(null, adminName, password));
         if (admin!=null){
             //如果通过 是管理员
-            request.getRequestDispatcher("/views/member/manage_menu.jsp").forward(request,response);
+            request.getSession().setAttribute("Admin",admin);
+            request.getRequestDispatcher("/views/manage/manage_menu.jsp").forward(request,response);
         }else{
             request.setAttribute("msg", "用户账号或密码错误");
             request.setAttribute("adminName", adminName);
-            request.getRequestDispatcher("/views/member/manage_login.jsp").forward(request,response);
+            request.getRequestDispatcher("/views/manage/manage_login.jsp").forward(request,response);
         }
     }
 }

@@ -72,7 +72,7 @@
                         </div>
                         </c:if>
                         <div class="header-bottom-set dropdown">
-                            <a href="#">订单管理</a>
+                            <a href="OrderServlet?action=showOrder">订单管理</a>
                         </div>
                         <div class="header-bottom-set dropdown">
                             <a href="MemberServlet?action=logout">安全退出</a>
@@ -154,9 +154,16 @@
                                                title="Quick view" data-bs-toggle="modal" data-bs-target="#exampleModal"><i
                                                     class="icon-size-fullscreen"></i></a>
                                         </div>
+                                        <c:if test="${furn.stock != 0}">
                                         <button title="Add To Cart" class="add-to-cart" furnId="${furn.id}" >Add
                                             To Cart
                                         </button>
+                                        </c:if>
+                                        <c:if test="${furn.stock == 0}">
+                                        <text title="Add To Cart" class="add-to-cart" furnId="${furn.id}" >Add
+                                            To Cart[缺货]
+                                        </text>
+                                        </c:if>
                                     </div>
                                     <div class="content">
                                         <h5 class="title">

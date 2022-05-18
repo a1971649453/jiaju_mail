@@ -35,7 +35,11 @@ public class MemberServlet extends BasicServlet {
             HttpSession session = request.getSession();
             session.setAttribute("member",member);
 //            System.out.println(member + " 登录成功");
-            request.getRequestDispatcher("/views/member/login_ok.jsp").forward(request, response);
+            if ("jzwAdmin".equals(member.getUsername())){
+                request.getRequestDispatcher("/views/manage/manage_menu.jsp").forward(request,response);
+            }else {
+                request.getRequestDispatcher("/views/member/login_ok.jsp").forward(request, response);
+            }
 
         } else {
             System.out.println(member + " 登录失败");

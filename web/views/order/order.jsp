@@ -1,6 +1,5 @@
-<%@ page import="com.hspedu.furns.utils.DataUtils" %>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -12,18 +11,6 @@
     <link rel="stylesheet" href="assets/css/vendor/vendor.min.css"/>
     <link rel="stylesheet" href="assets/css/plugins/plugins.min.css"/>
     <link rel="stylesheet" href="assets/css/style.min.css">
-    <script type="text/javascript" src="script/jquery-3.6.0.min.js"></script>
-    <script type="text/javascript">
-    $(function (){
-        $("a.deleteCss").click(function(){
-            //获取到要删除的家居的名字
-            var furnName = $(this).parent().parent().find("td:eq(1)").text();
-            //confirm方法会弹出一个确认窗口 确定是返回ture 返回是false
-             return confirm("你确定删除[" + furnName + "]吗?");
-
-        })
-    })
-    </script>
 </head>
 
 <body>
@@ -41,26 +28,17 @@
                     </div>
                 </div>
                 <!-- Header Logo End -->
-
                 <!-- Header Action Start -->
                 <div class="col align-self-center">
                     <div class="header-actions">
-                        <div class="header_account_list">
-                            <a href="javascript:void(0)" class="header-action-btn search-btn"><i
-                                    class="icon-magnifier"></i></a>
-                            <div class="dropdown_search">
-                                <form class="action-form" action="#">
-                                    <input class="form-control" placeholder="Enter your search key" type="text">
-                                    <button class="submit" type="submit"><i class="icon-magnifier"></i></button>
-                                </form>
-                            </div>
-                        </div>
-                        <!-- Single Wedge Start -->
                         <div class="header-bottom-set dropdown">
-                            <a href="#">后台管理</a>
+                            <a>欢迎: ${sessionScope.member.username}</a>
                         </div>
                         <div class="header-bottom-set dropdown">
-                            <a href="views/manage/furn_add.jsp?pageNo=${requestScope.page.pageNo}">添加家居</a>
+                            <a href="OrderServlet?action=showOrder">订单管理</a>
+                        </div>
+                        <div class="header-bottom-set dropdown">
+                            <a href="#">安全退出</a>
                         </div>
                     </div>
                 </div>
@@ -88,81 +66,41 @@
     <!-- Main Menu End -->
 </div>
 <!-- Cart Area Start -->
-<div class="cart-main-area pt-100px pb-100px">
+<div class="cart-main-area pt-70px pb-100px">
     <div class="container">
-        <h3 class="cart-page-title">家居后台管理</h3>
+        <h3 class="cart-page-title">订单管理</h3>
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                 <form action="#">
                     <div class="table-content table-responsive cart-table-content">
                         <table>
-                            <thead>
-                            <tr>
-                                <th>图片</th>
-                                <th>家居名</th>
-                                <th>商家</th>
-                                <th>价格</th>
-                                <th>销量</th>
-                                <th>库存</th>
-                                <th>操作</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <%--调用getItems方法--%>
-                            <c:forEach items="${requestScope.page.items}" var="furn">
-                            <tr>
-                                <td class="product-thumbnail">
-                                    <a href="#"><img class="img-responsive ml-3" src="${furn.img_path}"
-                                                     alt=""/></a>
-                                </td>
-                                <td class="product-name"><a href="#">${furn.name}</a></td>
-                                <td class="product-name"><a href="#">${furn.maker}</a></td>
-                                <td class="product-price-cart"><span class="amount">${furn.price}</span></td>
-                                <td class="product-quantity">
-                                    ${furn.sales}
-                                </td>
-                                <td class="product-quantity">
-                                    ${furn.stock}
-                                </td>
-                                <td class="product-remove">
-                                    <%--自己写的时候没有找到放pageNo的位置--%>
-                                    <a href="manage/FurnServlet?action=showFurn&id=${furn.id}&pageNo=${requestScope.page.pageNo}"><i class="icon-pencil"></i></a>
-                                    <a class="deleteCss" href="manage/FurnServlet?action=del&id=${furn.id}&pageNo=${requestScope.page.pageNo}" ><i class="icon-close"></i></a>
-                                </td>
-                            </tr>
-                            </c:forEach>
-                            </tbody>
+                                <thead>
+                                <tr>
+                                    <th>订单</th>
+                                    <th>日期</th>
+                                    <th>金额</th>
+                                    <th>状态</th>
+                                    <th>详情</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <c:forEach items="${sessionScope.orders}" var="order">
+                                <tr>
+                                    <td class="product-name">${order.id}</td>
+                                    <td class="product-name">${order.create_time}</td>
+                                    <td class="product-price-cart"><span class="amount">${order.price}</span></td>
+                                    <td class="product-name"><a href="#">${order.status}</a></td>
+                                    <td class="product-remove">
+                                        <a href="OrderItemServlet?action=listOrderItem&order_id=${order.id}"><i class="icon-eye"></i></a>
+                                    </td>
+                                </tr>
+                                </c:forEach>
+                                </tbody>
                         </table>
+
                     </div>
                 </form>
             </div>
-        </div>
-        <%--分页导航条start--%>
-        <div class="pro-pagination-style text-center mb-md-30px mb-lm-30px mt-6" data-aos="fade-up">
-            <ul>
-                <%--当前页面如果大于一 就显示上一页--%>
-                <li><a href="manage/FurnServlet?action=page&pageNo=1">首页</a></li>
-                <c:if test="${requestScope.page.pageNo > 1}">
-                <li><a href="manage/FurnServlet?action=page&pageNo=${requestScope.page.pageNo -1}">上一页</a></li>
-                </c:if>
-                <c:set var="begin" value="1"></c:set>
-                <c:set var="end" value="${requestScope.page.pageTotalCount}"></c:set>
-                <c:forEach begin="${begin}" end = "${end}" var="i">
-                    <c:if test="${i == requestScope.page.pageNo}">
-                        <li><a class="active" href="manage/FurnServlet?action=page&pageNo=${i}">${i}</a></li>
-                    </c:if>
-                    <c:if test="${i != requestScope.page.pageNo}">
-                        <li><a href="manage/FurnServlet?action=page&pageNo=${i}">${i}</a></li>
-                    </c:if>
-                </c:forEach>
-                <c:if test="${requestScope.page.pageNo < requestScope.page.pageTotalCount}">
-                <li><a href="manage/FurnServlet?action=page&pageNo=${requestScope.page.pageNo + 1}>">下一页</a></li>
-                </c:if>
-                    <li><a href="manage/FurnServlet?action=page&pageNo=${requestScope.page.pageTotalCount}">末页</a></li>
-                <li><a>共${requestScope.page.pageTotalCount}页</a></li>
-                <li><a>共${requestScope.page.totalRow}记录</a></li>
-            </ul>
-            <%--分页导航条end--%>
         </div>
     </div>
 </div>
@@ -205,7 +143,7 @@
                                         <li class="li"><a class="single-link" href="my-account.html">我的账号</a>
                                         </li>
                                         <li class="li"><a class="single-link" href="cart.html">我的购物车</a></li>
-                                        <li class="li"><a class="single-link" href="login.html">登录</a></li>
+                                        <li class="li"><a class="single-link" href="login.jsp">登录</a></li>
                                         <li class="li"><a class="single-link" href="wishlist.html">感兴趣的</a></li>
                                         <li class="li"><a class="single-link" href="checkout.html">结账</a></li>
                                     </ul>
@@ -227,9 +165,7 @@
                 <div class="row flex-sm-row-reverse">
                     <div class="col-md-6 text-right">
                         <div class="payment-link">
-                            <%--src="#"的意思是会请求当前页 所以会去请求base标签下的url --%>
-                            <%--也就是 http://localhost:8080/jiaju_mail/#--%>
-                            <%--<img src="#" alt="">--%>
+                            <img src="#" alt="">
                         </div>
                     </div>
                     <div class="col-md-6 text-left">
