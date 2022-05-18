@@ -12,6 +12,10 @@
             <param-value>/views/manage/manage_login.jsp,/views/member/login.jsp</param-value>
         </init-param>
     </filter>
+    <filter>
+        <filter-name>TransactionFilter</filter-name>
+        <filter-class>com.hspedu.furns.filter.TransactionFilter</filter-class>
+    </filter>
     <filter-mapping>
         <filter-name>AuthFilter</filter-name>
         <!--配置要拦截得url
@@ -27,6 +31,10 @@
         <url-pattern>/manage/FurnServlet</url-pattern>
         <url-pattern>/OrderItemServlet</url-pattern>
         <url-pattern>/OrderServlet</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>TransactionFilter</filter-name>
+        <url-pattern>/*</url-pattern>
     </filter-mapping>
     <servlet>
         <servlet-name>KaptchaServlet</servlet-name>

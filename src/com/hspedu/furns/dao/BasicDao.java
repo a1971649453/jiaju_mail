@@ -22,13 +22,13 @@ public class BasicDao<T> {
     public int update(String sql, Object... params) {
         Connection conn = null;
         try {
+            //从ThreadLocal 获取的connection
+            // 所以保证的是同一个链接
             Connection connection = JDBCUtilsByDruid.getConnection();
             int update = qr.update(connection, sql, params);
             return update;
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            JDBCUtilsByDruid.close(null, null, conn);
         }
     }
 
@@ -41,8 +41,6 @@ public class BasicDao<T> {
             return list;
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            JDBCUtilsByDruid.close(null, null, connection);
         }
     }
 
@@ -54,8 +52,6 @@ public class BasicDao<T> {
             return list;
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            JDBCUtilsByDruid.close(null, null, connection);
         }
     }
 
@@ -69,8 +65,6 @@ public class BasicDao<T> {
             return qr.query(connection, sql, new BeanHandler<>(clazz), params);
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            JDBCUtilsByDruid.close(null, null, connection);
         }
     }
     //单行单列
@@ -81,8 +75,6 @@ public class BasicDao<T> {
             return qr.query(connection, sql, new ScalarHandler(), params);
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            JDBCUtilsByDruid.close(null, null, connection);
         }
     }
 }
