@@ -19,8 +19,20 @@
                 // alert("ok");
                 //获取点击的id
                 var furnId = $(this).attr("furnId")
-                //发出请求 添加家居
-                location.href = "CartServlet?action=addItem&id="+furnId;
+                //发出请求 添加家居 发出ajax请求
+                // location.href = "CartServlet?action=addItem&id="+furnId;
+
+                //使用jQuery 传入ajax请求 使用json放入要携带的数据
+                $.getJSON("CartServlet",{
+                    "action" : "addItemByAjax",
+                    "id" : furnId},
+                    function(data){
+                        // console.log("data=",data);
+                        <%--<span class="header-action-num">${sessionScope.cart.totalCount}</span>--%>
+                        $("span.header-action-num").text(data.cartTotalCount)
+                    }
+                )
+
             })
             $("i.icon-handbag").click(function () {
                 location.href = "views/cart/cart.jsp";

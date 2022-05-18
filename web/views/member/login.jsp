@@ -14,6 +14,45 @@
     <script type="text/javascript">
 
         $(function () { //页面加载完毕后执行function
+
+            //给用户名输入框绑定 blur
+            $("#username").blur(function(){
+                //获取输入的用户名
+                var username = this.value;
+                //发出ajax请求
+                $.getJSON("MemberServlet",
+                    {"action": "isExistsMember",
+                        "username":username},
+                    function (data) {
+                    if (data.isExist){
+                        $("span.errorMsg").text("用户名已经存在")
+                    }else {
+                        $("span.errorMsg").text("可用")
+                    }
+                })
+            })
+
+            //对验证码进行处理 jquery选择器用的是()
+            $("#code").blur(function () {
+               //1.首先得到输入的验证码
+                var code = this.value;
+                $.getJSON("MemberServlet",{
+                    "action":"isCodeTure",
+                    "code":code},
+                    function (data) {
+                        if (data.codeIsTure){
+                            $("span.codeMsg").text("验证码正确")
+                        }else {
+                            $("span.codeMsg").text("验证码错误")
+                        }
+                    }
+                )
+                //2.ajax请求
+                //接收json格式 true还是false
+
+            })
+
+
             //模拟点击事件选中注册
             if ("${requestScope.active}" == "register") {
                 $("#register_tab")[0].click();//模拟点击
@@ -172,7 +211,7 @@
                         <div id="lg2" class="tab-pane">
                             <div class="login-form-container">
                                 <div class="login-register-form">
-                                    <span style="font-size:18pt;font-weight:bold;float:right;color: gainsboro">
+                                    <span class="errorMsg" style="font-size:18pt;font-weight:bold;float:right;color: gainsboro">
                                         ${requestScope.msg}
                                     </span>
                                     <form action="MemberServlet" method="post">
@@ -184,8 +223,11 @@
                                         <input name="user-email" id="email"
                                                value="${requestScope.email}" placeholder="电子邮件" type="email"/>
                                         <input type="text" id="code" name="code" style="width: 50%"
-                                               placeholder="验证码"/>　　<img id="codeImg" alt="" src="KaptchaServlet"
+                                               placeholder="验证码"/>　　
+                                        <img id="codeImg" alt="" src="KaptchaServlet"
                                                                          style="width:120px; height:50px">
+                                        <span class="codeMsg" style="width:120px; height:50px; font-size:18pt;font-weight:bold;float:right;color: gainsboro">
+                                        </span>
                                         <div class="button-box">
                                             <button type="submit" id="sub-btn"><span>会员注册</span></button>
                                         </div>

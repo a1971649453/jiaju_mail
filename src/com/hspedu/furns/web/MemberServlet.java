@@ -3,6 +3,7 @@ package com.hspedu.furns.web; /**
  * @version 1.0
  */
 
+import com.google.gson.Gson;
 import com.hspedu.furns.entity.Member;
 import com.hspedu.furns.service.MemberService;
 import com.hspedu.furns.service.impl.MemberServiceImpl;
@@ -11,12 +12,16 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY;
 
 @WebServlet(name = "MemberServlet", value = "/MemberServlet")
 public class MemberServlet extends BasicServlet {
     private MemberService memberService = new MemberServiceImpl();
+    Map<String, Object> resultMap = new HashMap<>();
+    Gson gson = new Gson();
 
 
     protected void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -92,5 +97,38 @@ public class MemberServlet extends BasicServlet {
         HttpSession session = request.getSession();
         session.invalidate();
         response.sendRedirect(request.getContextPath() + "/index.jsp");
+    }
+
+    /**
+     * 用于前端判断用户名是否存在
+     */
+    public void isExistsMember(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+        //1.得到 前端username
+        String username = request.getParameter("username");
+        boolean isExistsUsername = memberService.isExistsMember(username);
+        // 拼接json 格式 可扩展
+//        String resultJson = "{\"isExist\": "+ isExistsUsername + "}";
+        //将要返回的数据放到map 再转到json
+        resultMap.put("isExist",isExistsUsername);
+        String resultJson = gson.toJson(resultMap);
+        //返回
+        response.getWriter().write(resultJson);
+    }
+
+    public void isCodeTure(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+        //1.得到前端传入的code
+        String code = request.getParameter("code");
+        //2.得到后台验证码
+        //从session获取验证码
+        String token = (String) request.getSession().getAttribute(KAPTCHA_SESSION_KEY);
+        //3.判断
+        if (code.equals(token)){
+            resultMap.put("codeIsTure",true);
+        }else {
+            resultMap.put("codeIsTure",false);
+        }
+        String resultJson = gson.toJson(resultMap);
+        //返回
+        response.getWriter().write(resultJson);
     }
 }
